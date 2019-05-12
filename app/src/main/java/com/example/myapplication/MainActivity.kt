@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         myWebView.settings.javaScriptEnabled = true
         myWebView.addJavascriptInterface(WebAppInterface(this), "Android")
 
-        myWebView.loadUrl("http://172.16.80.34:3000")
+        myWebView.loadUrl("http://115.86.172.10:3000")
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -67,11 +67,11 @@ class MainActivity : AppCompatActivity() {
 private class MyWebViewClient : WebViewClient() {
 
     override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-        if (url == "http://172.16.80.34:3000/users/loginpage") {
+        if (url == "http://115.86.172.10:3000/users/loginpage") {
             // This is my web site, so do not override; let my WebView load the page
             return false
         }
-        else if(url == "http://172.16.80.34:3000/users/joinpage"){
+        else if(url == "http://115.86.172.10:3000/users/joinpage"){
             return false
         }
         return true
