@@ -2,25 +2,18 @@ package com.example.myapplication
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu
 import android.view.MenuItem
-
 import kotlinx.android.synthetic.main.activity_main.*
 import android.os.Build
 import android.support.annotation.RequiresApi
-import android.support.v4.app.ActivityCompat.startActivityForResult
-import android.support.v4.content.ContextCompat.startActivity
 import android.view.KeyEvent
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
-import android.content.Context.MODE_PRIVATE
-import android.content.SharedPreferences
-import android.support.v4.content.ContextCompat.startActivity
 
 class MainActivity : AppCompatActivity() {
     lateinit var myWebView: WebView
@@ -36,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         myWebView.settings.javaScriptEnabled = true
         myWebView.addJavascriptInterface(WebAppInterface(this), "Android")
 
-        myWebView.loadUrl("http://115.86.172.10:3000")
+        myWebView.loadUrl("http://115.86.172.10:3000/")
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -91,16 +84,5 @@ class WebAppInterface(private val mContext: Context) {
     @JavascriptInterface
     fun getUser(name:String, age:Int, weight:Int){
         Toast.makeText(mContext, name, Toast.LENGTH_SHORT).show()
-
-
-
     }
 }
-//class WebAppInterface(private val mContext: Context) {
-//
-//    /** Show a toast from the web page  */
-//    @JavascriptInterface
-//    fun showToast(toast: String) {
-//        Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show()
-//    }
-//}
