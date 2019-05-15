@@ -14,6 +14,9 @@ import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
+import android.support.v4.app.NavUtils
+import android.webkit.WebChromeClient
+
 
 class MainActivity : AppCompatActivity() {
     lateinit var myWebView: WebView
@@ -25,11 +28,12 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         myWebView = findViewById(R.id.webview)
-        myWebView.webViewClient = MyWebViewClient()
+        myWebView.webChromeClient = WebChromeClient()
+        myWebView.webViewClient = WebViewClient()
         myWebView.settings.javaScriptEnabled = true
         myWebView.addJavascriptInterface(WebAppInterface(this), "Android")
-
         myWebView.loadUrl("http://115.86.172.10:3000/")
+
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -40,10 +44,11 @@ class MainActivity : AppCompatActivity() {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
+        if (item.itemId == R.id.action_settings) {
+            val sign_up_page_move = Intent(this, preferences::class.java)
+            startActivity(sign_up_page_move)
         }
+        return super.onOptionsItemSelected(item)
     }
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         // Check if the key event was the Back button and if there's history
@@ -55,19 +60,15 @@ class MainActivity : AppCompatActivity() {
         // system behavior (probably exit the activity)
         return super.onKeyDown(keyCode, event)
     }
-
 }
-private class MyWebViewClient : WebViewClient() {
 
+
+private class MyWebViewClient : WebViewClient() {
     override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-        if (url == "http://115.86.172.10:3000/users/loginpage") {
-            // This is my web site, so do not override; let my WebView load the page
-            return false
+        if (view != null) {
+            view.loadUrl(url)
         }
-        else if(url == "http://115.86.172.10:3000/users/joinpage"){
-            return false
-        }
-        return true
+        return false
     }
 }
 class WebAppInterface(private val mContext: Context) {
